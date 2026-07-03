@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZenFlow Space | Your Ambient Focus Haven</title>
+  <!-- Google Fonts: Outfit for headers, Inter for body -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Animated Background Canvas -->
+  <canvas id="particle-canvas"></canvas>
+
+  <div class="app-container">
+    <!-- Header Area -->
+    <header class="app-header">
+      <div class="logo-area">
+        <svg class="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="10" stroke="url(#logo-grad)" stroke-width="2.5"/>
+          <path d="M12 7C9.23858 7 7 9.23858 7 12C7 14.7614 9.23858 17 12 17C14.7614 17 17 14.7614 17 12" stroke="url(#logo-grad)" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="12" cy="12" r="2.5" fill="url(#logo-grad)"/>
+          <defs>
+            <linearGradient id="logo-grad" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#8A2387"/>
+              <stop offset="0.5" stop-color="#E94057"/>
+              <stop offset="1" stop-color="#F27121"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <span class="logo-text">ZenFlow <span class="logo-highlight">Space</span></span>
+      </div>
+      
+      <div class="time-widget">
+        <div id="current-time">12:00 PM</div>
+        <div id="current-date">Thursday, July 2</div>
+      </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="dashboard-grid">
+      
+      <!-- COLUMN 1: Timer & Audio -->
+      <section class="grid-column">
+        <!-- POMODORO TIMER WIDGET -->
+        <div class="glass-card widget-pomodoro" id="widget-timer">
+          <div class="card-header">
+            <span class="card-title">
+              <svg class="title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Focus Session
+            </span>
+            <div class="timer-modes">
+              <button class="mode-btn active" data-mode="pomodoro">Focus</button>
+              <button class="mode-btn" data-mode="shortBreak">Short Break</button>
+              <button class="mode-btn" data-mode="longBreak">Long Break</button>
+            </div>
+          </div>
+          
+          <div class="timer-display-container">
+            <svg class="timer-progress-ring" viewBox="0 0 200 200">
+              <circle class="ring-bg" cx="100" cy="100" r="85"></circle>
+              <circle class="ring-progress" cx="100" cy="100" r="85" id="timer-progress-circle"></circle>
+            </svg>
+            <div class="timer-time" id="timer-time-display">25:00</div>
+          </div>
+
+          <div class="timer-controls">
+            <button class="btn btn-secondary" id="timer-reset">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+            </button>
+            <button class="btn btn-primary btn-large" id="timer-start">
+              <svg id="play-icon" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              <svg id="pause-icon" class="hidden" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+            </button>
+            <button class="btn btn-secondary" id="timer-skip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- AMBIENT SOUNDS WIDGET -->
+        <div class="glass-card widget-sounds">
+          <div class="card-header">
+            <span class="card-title">
+              <svg class="title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v1a7 7 0 0 1-14 0v-1"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+              Ambient Sound Generator
+            </span>
+            <span class="audio-master-toggle" id="audio-master">Audio Off</span>
+          </div>
+          
+          <div class="sounds-list">
+            <!-- Rain -->
+            <div class="sound-row" id="sound-rain">
+              <div class="sound-info">
+                <span class="sound-name">Gentle Rain</span>
+                <span class="sound-status">Idle</span>
+              </div>
+              <div class="sound-controls">
+                <button class="sound-toggle-btn">Play</button>
+                <input type="range" class="sound-volume" min="0" max="1" step="0.05" value="0.5">
+              </div>
+            </div>
+            
+            <!-- Ocean Waves -->
+            <div class="sound-row" id="sound-ocean">
+              <div class="sound-info">
+                <span class="sound-name">Deep Ocean</span>
+                <span class="sound-status">Idle</span>
+              </div>
+              <div class="sound-controls">
+                <button class="sound-toggle-btn">Play</button>
+                <input type="range" class="sound-volume" min="0" max="1" step="0.05" value="0.3">
+              </div>
+            </div>
+
+            <!-- Brown Noise -->
+            <div class="sound-row" id="sound-noise">
+              <div class="sound-info">
+                <span class="sound-name">Focus Brown Noise</span>
+                <span class="sound-status">Idle</span>
+              </div>
+              <div class="sound-controls">
+                <button class="sound-toggle-btn">Play</button>
+                <input type="range" class="sound-volume" min="0" max="1" step="0.05" value="0.25">
+              </div>
+            </div>
+
+            <!-- Binaural Beats -->
+            <div class="sound-row" id="sound-beats">
+              <div class="sound-info">
+                <span class="sound-name">Beta Focus Waves</span>
+                <span class="sound-status">Idle</span>
+              </div>
+              <div class="sound-controls">
+                <button class="sound-toggle-btn">Play</button>
+                <input type="range" class="sound-volume" min="0" max="1" step="0.05" value="0.2">
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- COLUMN 2: Tasks, Breathing & Stats -->
+      <section class="grid-column">
+        <!-- FOCUS TASKS WIDGET -->
+        <div class="glass-card widget-tasks">
+          <div class="card-header">
+            <span class="card-title">
+              <svg class="title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              Focus Tasks
+            </span>
+            <span class="task-counter" id="task-count">0 completed</span>
+          </div>
+
+          <div class="task-input-wrapper">
+            <input type="text" id="task-input" placeholder="Add a new task to your flow...">
+            <button id="add-task-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+          </div>
+
+          <ul class="task-list" id="task-list-items">
+            <!-- Dynamically populated -->
+          </ul>
+        </div>
+
+        <!-- BREATHING REGULATION WIDGET -->
+        <div class="glass-card widget-breather">
+          <div class="card-header">
+            <span class="card-title">
+              <svg class="title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              Calm Breather
+            </span>
+            <button class="breath-btn" id="breath-toggle-btn">Start Breathing</button>
+          </div>
+
+          <div class="breathing-content">
+            <div class="breath-circle-container">
+              <div class="breath-ring-outer"></div>
+              <div class="breath-ring-inner" id="breath-circle"></div>
+              <div class="breath-phase" id="breath-phase-text">Relax</div>
+            </div>
+            <div class="breath-stats">
+              <span id="breath-pattern-desc">Box Breathing (4s In, 4s Hold, 4s Out, 4s Hold)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- FOCUS STATS WIDGET -->
+        <div class="glass-card widget-stats">
+          <div class="card-header">
+            <span class="card-title">
+              <svg class="title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+              Analytics
+            </span>
+          </div>
+          
+          <div class="stats-grid">
+            <div class="stat-box">
+              <span class="stat-val" id="stat-focus-time">0m</span>
+              <span class="stat-lbl">Focus Time</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-val" id="stat-sessions">0</span>
+              <span class="stat-lbl">Completed Cycles</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-val" id="stat-daily-goal">0%</span>
+              <span class="stat-lbl">Goal Completed</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <p>Built with Google Antigravity &bull; Serving from Google Cloud Run</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

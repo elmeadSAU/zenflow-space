@@ -1,0 +1,16 @@
+{
+  "name": "zenflow-space",
+  "version": "1.0.0",
+  "description": "ZenFlow Space - A premium glassmorphic personal productivity and focus hub",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
